@@ -1,2 +1,7 @@
-export { createReducer } from './lib/createReducer';
-export { ReducerBuilder } from './lib/ReducerBuilder';
+import createReducer from './lib/createReducer';
+import ReducerBuilder from './lib/ReducerBuilder';
+
+export default {
+    createReducer,
+    ReducerBuilder
+};
