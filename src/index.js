@@ -1,2 +1,2 @@
-export { createReducer } from './src/createReducer';
-export { ReducerBuilder } from './src/ReducerBuilder';
+export { createReducer } from './lib/createReducer';
+export { ReducerBuilder } from './lib/ReducerBuilder';
