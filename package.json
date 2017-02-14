@@ -1,6 +1,6 @@
 {
   "name": "redux-reducer-builder",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Flexible builder redux root reducer",
   "main": "dist/index.js",
   "scripts": {
@@ -19,7 +19,9 @@
     "url": "https://github.com/anyx/redux-reducer-builder/issues"
   },
   "homepage": "https://github.com/anyx/redux-reducer-builder#readme",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",

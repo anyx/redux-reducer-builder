@@ -31,7 +31,7 @@ describe('ReducerBuilder', () => {
         });
 
         builder.registerReducer(globalReducer);
-        builder.registerReducer(modules.user.reducer, 'user', modules.user.initialState);
+        builder.registerReducer(modules.user.reducer, modules.user.initialState, 'user');
 
         let reducer = builder.build();
 
@@ -51,4 +51,16 @@ describe('ReducerBuilder', () => {
             user: {}
         });
     });
+
+    it('should build state by initial values', () => {
+        let builder = new ReducerBuilder();
+
+        builder.registerReducer(modules.user.reducer, modules.user.initialState, 'user');
+        let reducer = builder.build();
+
+
+        let nextState = reducer({}, {type: 'SOME_ACTION'});
+
+        expect(nextState).toEqual({user: modules.user.initialState});
+    })
 });

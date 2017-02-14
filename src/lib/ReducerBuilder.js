@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const ActionTypes = {
     INIT: '@@redux/INIT'
 };
@@ -10,10 +12,11 @@ function getUndefinedStateErrorMessage(key, action) {
         actionName = 'unknown action';
     }
 
-    return (
-        `Given action ${actionName}, reducer "${key}" returned undefined. ` +
+    let reducerKey = key ? `reducer "${key}"` : 'global reducer';
+
+    return `Given action ${actionName}, ${reducerKey} returned undefined. ` +
         'To ignore an action, you must explicitly return the previous state.'
-    );
+    ;
 }
 
 function assertReducerSanity(reducersMap) {
@@ -53,7 +56,7 @@ export default class ReducerBuilder {
         reducersMap = [];
     }
 
-    registerReducer(reducer, stateKey, initialState = {}) {
+    registerReducer(reducer, initialState = {}, stateKey = null) {
         reducersMap.push({
             key: stateKey,
             reducer: reducer,
@@ -85,20 +88,24 @@ export default class ReducerBuilder {
                 nextState = reducer(nextState, action);
 
                 if (!nextState) {
-                    throw new Error(`Looks like reducer for action "${action.type}" did not return a new state`);
+                    throw new Error(getUndefinedStateErrorMessage(null, action));
+                }
+
+                if (typeof reducer.initialState === 'object') {
+                    nextState = {nextState, ...reducer.initialState};
                 }
             }
 
             for (let i = 0; i < internalReducers.length; i++) {
-                let key = internalReducers[i].key;
-                let reducer = internalReducers[i].reducer;
+                let module = internalReducers[i];
+                let key = module.key;
+                let reducer = module.reducer;
 
                 let previousStateForKey = nextState[key];
-                let nextStateForKey = reducer(previousStateForKey, action);
+                let nextStateForKey = _.defaultsDeep(reducer(previousStateForKey, action), module.initialState);
 
-                if (typeof nextStateForKey === 'undefined') {
-                    let errorMessage = getUndefinedStateErrorMessage(key, action);
-                    throw new Error(errorMessage);
+                if (!nextStateForKey) {
+                    throw new Error(getUndefinedStateErrorMessage(key, action));
                 }
 
                 if (previousStateForKey !== nextStateForKey) {

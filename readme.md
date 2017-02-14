@@ -22,8 +22,8 @@ const securityReducer = createReducer({
     }    
 });
 
-//second parameter defines state key for reducer
-reducerBuilder.registerReducer(securityReducer, 'security', initialSecurityState);
+//third parameter defines state key for reducer
+reducerBuilder.registerReducer(securityReducer, initialSecurityState, 'security');
 
 const globalReducer = createReducer({
     'RESET_ALL': (state, action) => {
@@ -31,9 +31,8 @@ const globalReducer = createReducer({
     }    
 });
 
-//register without second parameter marks reducer as global
+//register without third parameter marks reducer as global
 reducerBuilder.registerReducer(globalReducer);
-
 
 exports default reducerBuilder.build();
 ```
