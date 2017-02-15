@@ -84,15 +84,17 @@ export default class ReducerBuilder {
 
             let nextState = state;
             for (let i = 0; i < globalReducers.length; i++) {
-                let reducer = globalReducers[i].reducer;
+                let module = globalReducers[i];
+                let reducer = module.reducer;
+
                 nextState = reducer(nextState, action);
 
                 if (!nextState) {
                     throw new Error(getUndefinedStateErrorMessage(null, action));
                 }
 
-                if (typeof reducer.initialState === 'object') {
-                    nextState = {nextState, ...reducer.initialState};
+                if (_.isObject(module.initialState)) {
+                    _.defaultsDeep(nextState, module.initialState);
                 }
             }
 

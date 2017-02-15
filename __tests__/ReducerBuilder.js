@@ -11,7 +11,7 @@ describe('ReducerBuilder', () => {
     let modules = {
         user: {
             initialState: {
-                email: undefined
+                email: 'some@email.com'
             },
             reducer: createReducer({
                 [ACTION_SET_USER]: (state, action) => {
@@ -48,16 +48,27 @@ describe('ReducerBuilder', () => {
         let stateAfterSecondAction = reducer(stateAfterFirstAction, secondAction);
 
         expect(stateAfterSecondAction).toEqual({
-            user: {}
+            user: modules.user.initialState
         });
     });
 
-    it('should build state by initial values', () => {
+    it('should build state by global initial state', () => {
+        let builder = new ReducerBuilder();
+
+        builder.registerReducer(modules.user.reducer, modules.user.initialState);
+        let reducer = builder.build();
+
+        let nextState = reducer({}, {type: 'SOME_ACTION'});
+
+        expect(nextState).not.toBe(modules.user.initialState);
+        expect(nextState).toEqual(modules.user.initialState);
+    });
+
+    it('should build state by module initial values', () => {
         let builder = new ReducerBuilder();
 
         builder.registerReducer(modules.user.reducer, modules.user.initialState, 'user');
         let reducer = builder.build();
-
 
         let nextState = reducer({}, {type: 'SOME_ACTION'});
 
