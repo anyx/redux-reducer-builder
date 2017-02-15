@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest test",
-    "lint": "eslint ./src",
+    "lint": "eslint ./src ./__tests__",
     "prepublish": ". ./scripts/prepublish.sh"
   },
   "repository": "git+ssh://git@github.com/anyx/redux-reducer-builder.git",

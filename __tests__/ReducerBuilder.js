@@ -15,7 +15,7 @@ describe('ReducerBuilder', () => {
             },
             reducer: createReducer({
                 [ACTION_SET_USER]: (state, action) => {
-                    return {...state, email: action.user}
+                    return {...state, email: action.user};
                 }
             })
         }
@@ -25,7 +25,7 @@ describe('ReducerBuilder', () => {
         let builder = new ReducerBuilder();
 
         let globalReducer = createReducer({
-            [ACTION_CLEAR_ALL]: (state, action) => {
+            [ACTION_CLEAR_ALL]: (state) => {
                 return {...state, user: {}};
             }
         });
@@ -73,5 +73,5 @@ describe('ReducerBuilder', () => {
         let nextState = reducer({}, {type: 'SOME_ACTION'});
 
         expect(nextState).toEqual({user: modules.user.initialState});
-    })
+    });
 });

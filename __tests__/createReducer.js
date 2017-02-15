@@ -23,7 +23,7 @@ describe('create reducer', () => {
 
         let reducersMap = {
             [actionType]: (state, action) => {
-                return {...state, stateKey: action.number}
+                return {...state, stateKey: action.number};
             }
         };
 
@@ -34,5 +34,5 @@ describe('create reducer', () => {
 
         expect(nextState).not.toBe(initialState);
         expect(nextState).toEqual({stateKey: 7});
-    })
+    });
 });

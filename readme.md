@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/anyx/redux-reducer-builder.svg?branch=master)](https://travis-ci.org/anyx/redux-reducer-builder)
 
 ## Redux reducer builder
 
